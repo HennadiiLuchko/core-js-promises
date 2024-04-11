@@ -19,7 +19,7 @@
  */
 function getPromise(number) {
   return new Promise((resolve, reject) => {
-    if (number > 0) resolve(number);
+    if (number >= 0) resolve(number);
     reject(new Error('Error'));
   });
 }
@@ -139,8 +139,15 @@ function getAllResult(promises) {
  * [promise1, promise4, promise3] => Promise.resolved('104030')
  * [promise1, promise4, promise3, promise2] => Promise.resolved('10403020')
  */
-function queuPromises(/* promises */) {
-  throw new Error('Not implemented');
+function queuPromises(promises) {
+  let result = Promise.resolve('');
+  promises.forEach((promise) => {
+    result = result.then(async (res) => {
+      const val = await promise;
+      return res + val.toString();
+    });
+  });
+  return result;
 }
 
 module.exports = {
